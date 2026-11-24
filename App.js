@@ -15,6 +15,8 @@ import {
 
 import * as ImagePicker from 'expo-image-picker';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Asset } from 'expo-asset';
+import * as ort from 'onnxruntime-react-native';
 
 // Permanent storage key for scan history
 const HISTORY_STORAGE_KEY = 'cropsaathi_scan_history';
@@ -26,12 +28,63 @@ const crops = [
   { name: 'Rice', emoji: '🌾', color: '#EAF3E5' },
 ];
 
+async function loadCropDiseaseModel() {
+  try {
+    const assets = await Asset.loadAsync(
+      require('./assets/models/crop_disease_model.onnx')
+    );
+
+    const modelUri = assets[0].localUri;
+
+    if (!modelUri) {
+      throw new Error('Could not locate the ONNX model file.');
+    }
+
+    const session = await ort.InferenceSession.create(modelUri, {
+      executionProviders: ['cpu'],
+    });
+
+    console.log('CropSaathi AI model loaded successfully!');
+    console.log('Model inputs:', session.inputNames);
+    console.log('Model outputs:', session.outputNames);
+
+    return session;
+  } catch (error) {
+    console.error('CropSaathi model loading failed:', error);
+    throw error;
+  }
+}
+
 export default function App() {
   const [screen, setScreen] = useState('home');
   const [selectedCrop, setSelectedCrop] = useState(null);
   const [photo, setPhoto] = useState(null);
   const [history, setHistory] = useState([]);
   const [historyLoaded, setHistoryLoaded] = useState(false);
+  const [modelSession, setModelSession] = useState(null);
+
+  // LOAD AI MODEL WHEN APP OPENS
+useEffect(() => {
+  let isActive = true;
+
+  async function initializeModel() {
+    try {
+      const session = await loadCropDiseaseModel();
+
+      if (isActive) {
+        setModelSession(session);
+      }
+    } catch (error) {
+      console.error('AI model initialization failed:', error);
+    }
+  }
+
+  initializeModel();
+
+  return () => {
+    isActive = false;
+  };
+}, []);
 
   // LOAD SAVED HISTORY WHEN APP OPENS
   useEffect(() => {
@@ -124,6 +177,7 @@ export default function App() {
       const result = await ImagePicker.launchCameraAsync({
         mediaTypes: ['images'],
         allowsEditing: true,
+        aspect: [1,1],
         quality: 0.8,
       });
 
@@ -153,6 +207,7 @@ export default function App() {
       const result = await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ['images'],
         allowsEditing: true,
+        aspect: [1,1],
         quality: 0.8,
       });
 

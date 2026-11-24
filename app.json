@@ -2,10 +2,8 @@
   "expo": {
     "name": "CropSaathi",
     "slug": "CropSaathi",
+    "scheme":"cropsaathi",
     "version": "1.0.0",
-    "plugins": [
-      "onnxruntime-react-native"
-    ],
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
