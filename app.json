@@ -1,0 +1,33 @@
+{
+  "expo": {
+    "name": "CropSaathi",
+    "slug": "CropSaathi",
+    "version": "1.0.0",
+    "plugins": [
+      "onnxruntime-react-native"
+    ],
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "adaptiveIcon": {
+        "backgroundColor": "#E6F4FE",
+        "foregroundImage": "./assets/android-icon-foreground.png",
+        "backgroundImage": "./assets/android-icon-background.png",
+        "monochromeImage": "./assets/android-icon-monochrome.png"
+      },
+      "package": "com.murshid_gulam.CropSaathi"
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "35aae2bf-a19d-459b-97aa-01756c5ce5db"
+      }
+    }
+  }
+}
