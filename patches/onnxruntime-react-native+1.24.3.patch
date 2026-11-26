@@ -1,16 +1,37 @@
 diff --git a/node_modules/onnxruntime-react-native/android/build.gradle b/node_modules/onnxruntime-react-native/android/build.gradle
-index 41b4359..82cbe8b 100644
+index 41b4359..8248728 100644
 --- a/node_modules/onnxruntime-react-native/android/build.gradle
 +++ b/node_modules/onnxruntime-react-native/android/build.gradle
-@@ -247,8 +247,9 @@ dependencies {
+@@ -247,7 +247,8 @@ dependencies {
      extractLibs "com.microsoft.onnxruntime:onnxruntime-android:latest.integration@aar"
    }
  
 -  if (VersionNumber.parse(REACT_NATIVE_VERSION) < VersionNumber.parse("0.71")) {
--    extractLibs "com.facebook.fbjni:fbjni:+:headers"
-+def rnVersionParts = REACT_NATIVE_VERSION.split("\\.")
-+if (rnVersionParts[0].toInteger() == 0 && rnVersionParts[1].toInteger() < 71) {
-+      extractLibs "com.facebook.fbjni:fbjni:+:headers"
++  def rnVersionParts = REACT_NATIVE_VERSION.split("\\.")
++  if (rnVersionParts[0].toInteger() == 0 && rnVersionParts[1].toInteger() < 71) {
+     extractLibs "com.facebook.fbjni:fbjni:+:headers"
      extractLibs "com.facebook.fbjni:fbjni:+"
    }
- 
+diff --git a/node_modules/onnxruntime-react-native/android/gradle/wrapper/gradle-wrapper.properties b/node_modules/onnxruntime-react-native/android/gradle/wrapper/gradle-wrapper.properties
+index 381baa9..134e67e 100644
+--- a/node_modules/onnxruntime-react-native/android/gradle/wrapper/gradle-wrapper.properties
++++ b/node_modules/onnxruntime-react-native/android/gradle/wrapper/gradle-wrapper.properties
+@@ -2,7 +2,7 @@ distributionBase=GRADLE_USER_HOME
+ distributionPath=wrapper/dists
+ distributionSha256Sum=544c35d6bd849ae8a5ed0bcea39ba677dc40f49df7d1835561582da2009b961d
+ distributionUrl=https\://services.gradle.org/distributions/gradle-8.7-bin.zip
+-networkTimeout=10000
++networkTimeout=120000
+ validateDistributionUrl=true
+ zipStoreBase=GRADLE_USER_HOME
+ zipStorePath=wrapper/dists
+diff --git a/node_modules/onnxruntime-react-native/unimodule.json b/node_modules/onnxruntime-react-native/unimodule.json
+deleted file mode 100644
+index c2bd3c0..0000000
+--- a/node_modules/onnxruntime-react-native/unimodule.json
++++ /dev/null
+@@ -1,4 +0,0 @@
+-{
+-  "name": "onnxruntime-react-native",
+-  "platforms": ["ios", "android"]
+-}
