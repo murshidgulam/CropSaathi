@@ -46,3 +46,7 @@ backend/node_modules/
 # Environment files
 .env
 .env.*
+
+backend/cropsaathi.db
+backend/cropsaathi.db-shm
+backend/cropsaathi.db-wal
